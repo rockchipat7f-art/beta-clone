@@ -1,0 +1,134 @@
+/* PENGATURAN DASAR & VARIABEL */
+:root { --putih: #ffffff; --hijau: #10b981; --hijau-gelap: #059669; --gelap: #0f172a; --kaca-bg: rgba(255, 255, 255, 0.05); --kaca-border: rgba(255, 255, 255, 0.1); --teks-utama: #f8fafc; --teks-pudar: #94a3b8; --aksen: #f1c40f;}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; width: 100%; height: 100%; overflow: hidden; }
+body { width: 100%; height: 100%; font-family: 'Segoe UI', system-ui, sans-serif; background-color: #111; overflow: hidden; color: var(--teks-utama); }
+
+/* KONTEN UTAMA & LAYOUT */
+.konten-utama { position: absolute; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: radial-gradient(circle at 50% 0%, #1e293b, #020617); z-index: 1; }
+.w-full { width: 100%; max-width: 1200px; padding: 20px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; }
+
+/* NAVBAR & GLASS PANEL */
+.glass-panel { background: var(--kaca-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--kaca-border); border-radius: 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); }
+.navbar { display: flex; justify-content: center; padding: 15px; margin-bottom: 20px; width: 100%; max-width: 500px; }
+.navbar a { color: var(--teks-utama); text-decoration: none; padding: 10px 20px; border-radius: 10px; font-weight: 600; transition: 0.3s; }
+.navbar a:hover, .navbar a.active { background: rgba(16, 185, 129, 0.2); color: var(--hijau); box-shadow: inset 0 0 10px rgba(16, 185, 129, 0.1); }
+.header-title { text-align: center; margin-bottom: 20px; }
+.header-title h1 { margin: 0; font-size: 28px; font-weight: bold; letter-spacing: 1px; }
+.header-title p { color: var(--teks-pudar); font-size: 14px; margin-top: 5px; }
+
+/* SISTEM HALAMAN (PAGING) */
+.page-container { display: none; width: 100%; flex-direction: column; align-items: center; animation: fadeIn 0.4s ease-in-out; }
+.page-container.active { display: flex; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* MAGNETIC CARD SCROLLER */
+.card-scroller { display: flex; gap: 20px; padding: 10px 20px 30px 20px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; width: 100%; max-width: 1000px; }
+.card-scroller::-webkit-scrollbar { height: 6px; }
+.card-scroller::-webkit-scrollbar-thumb { background: var(--kaca-border); border-radius: 10px; }
+.magnetic-card { min-width: 80vw; max-width: 80vw; height: 60vh; padding: 20px; display: flex; flex-direction: column; scroll-snap-align: center; scroll-snap-stop: always; transition: transform 0.3s, border-color 0.3s; }
+.magnetic-card:hover { transform: translateY(-5px); border-color: var(--hijau); }
+.card-title { font-size: 22px; font-weight: bold; margin-bottom: 15px; color: #f1c40f; text-align: center; border-bottom: 1px solid var(--kaca-border); padding-bottom: 10px; }
+.list-container { flex: 1; overflow-y: auto; padding-right: 5px; display: flex; flex-direction: column; gap: 10px; }
+.list-container::-webkit-scrollbar { width: 4px; }
+.list-container::-webkit-scrollbar-thumb { background: var(--hijau); border-radius: 4px; }
+
+/* FORM AMALIYAH COMPACT 2-KOLOM */
+.form-amaliyah { text-align: left; width: 100%; }
+.form-row { display: flex; gap: 10px; width: 100%; margin-bottom: 12px; }
+.form-row .input-grup { flex: 1; min-width: 0; margin-bottom: 0; }
+.input-grup label { display: block; color: var(--teks-utama); font-weight: bold; margin-bottom: 5px; font-size: 0.8rem; letter-spacing: 1px; }
+.input-grup input, .input-grup select { width: 100%; padding: 10px; background: rgba(0, 0, 0, 0.3); color: white; border: 1px solid var(--kaca-border); border-radius: 8px; font-size: 0.9rem; outline: none; cursor: pointer; transition: 0.3s; }
+.input-grup input:focus, .input-grup select:focus { border-color: var(--hijau); background: rgba(0, 0, 0, 0.5); box-shadow: 0 0 10px rgba(16, 185, 129, 0.2); }
+.input-grup input:disabled, .input-grup select:disabled { background: rgba(255, 255, 255, 0.05); color: #7f8c8d; cursor: not-allowed; border-color: #333; }
+.form-amaliyah button { width: 100%; padding: 12px; background: var(--hijau-gelap); color: white; border: none; border-radius: 8px; font-weight: bold; font-size: 1.1rem; cursor: pointer; transition: background 0.3s, transform 0.2s, box-shadow 0.3s; margin-top: 10px; }
+.form-amaliyah button:hover:not(:disabled) { background: var(--hijau); }
+
+/* GAYA TIMING COUNTDOWN NYENTRIK */
+.timer-container { text-align: center; font-size: 0.9rem; font-weight: bold; margin-top: 12px; margin-bottom: 4px; letter-spacing: 0.5px; font-variant-numeric: tabular-nums; }
+.timer-hijau { color: #2ecc71; text-shadow: 0 0 10px rgba(46, 204, 113, 0.3); }
+.form-amaliyah button:disabled { background: #e74c3c !important; color: #ffffff !important; cursor: not-allowed; box-shadow: inset 0 0 15px rgba(0,0,0,0.2); }
+
+/* GAYA KARTU MUTABA'AH MULTI-USER */
+.mutabaah-item { display: flex; align-items: flex-start; background: rgba(0, 0, 0, 0.2); border: 1px solid var(--kaca-border); border-radius: 8px; padding: 10px; margin-bottom: 8px; transition: 0.3s; }
+.mutabaah-item:hover { background: rgba(16, 185, 129, 0.1); border-color: var(--hijau); }
+.juz-box { background: var(--hijau-gelap); color: white; font-weight: bold; width: 34px; height: 34px; display: flex; justify-content: center; align-items: center; border-radius: 6px; margin-right: 12px; font-size: 0.95rem; flex-shrink: 0; }
+.mutabaah-users { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+.mutabaah-user-row { display: flex; align-items: center; font-size: 0.95rem; }
+.mutabaah-user-row:not(:last-child) { border-bottom: 1px dashed rgba(255, 255, 255, 0.15); padding-bottom: 6px; }
+.mutabaah-nama { font-weight: bold; color: #f1c40f; }
+.mutabaah-pemisah { margin: 0 8px; color: rgba(255, 255, 255, 0.3); }
+.mutabaah-skor { letter-spacing: 2px; font-size: 0.85rem; }
+.mutabaah-kosong { opacity: 0.5; }
+.mutabaah-kosong .juz-box { background: #34495e; }
+.mutabaah-kosong .mutabaah-nama { color: #7f8c8d; font-weight: normal; font-style: italic; }
+
+/* GAYA KARTU BIDADARI SURGA */
+.bidadari-item { padding: 10px 15px; background: rgba(0, 0, 0, 0.2); border-radius: 8px; margin-bottom: 8px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; }
+.bidadari-izin { border-left: 4px solid #f39c12; color: #f1c40f; background: rgba(243, 156, 18, 0.05); }
+.bidadari-belum { border-left: 4px solid #e74c3c; color: var(--teks-utama); }
+.bidadari-sudah { border-left: 4px solid #2ecc71; color: #f1c40f; background: rgba(46, 204, 113, 0.05); }
+.status-badge { font-size: 0.75rem; padding: 3px 8px; border-radius: 12px; }
+.badge-merah { background: rgba(231, 76, 60, 0.2); color: #ff7675; }
+.badge-hijau { background: rgba(46, 204, 113, 0.2); color: #55efc4; }
+.badge-kuning { background: rgba(243, 156, 18, 0.2); color: #f1c40f; }
+.garis-pembatas { border: 0; height: 1px; background: var(--kaca-border); margin: 15px 0 10px 0; }
+.pembatas-text { text-align: center; font-size: 0.8rem; color: #f1c40f; margin-bottom: 12px; font-style: italic; font-weight: bold; }
+
+/* --- GAYA HALAMAN STATISTIK --- */
+.statistik-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; width: 100%; }
+.stat-card { padding: 15px 10px; text-align: center; display: flex; flex-direction: column; justify-content: center; background: rgba(0, 0, 0, 0.2); border: 1px solid var(--kaca-border); border-radius: 10px; }
+.stat-angka { font-size: 2rem; font-weight: bold; color: #f1c40f; margin-top: 5px; font-variant-numeric: tabular-nums; }
+.stat-label { font-size: 0.75rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; color: var(--teks-pudar); }
+.progress-container { width: 100%; display: flex; flex-direction: column; gap: 15px; }
+.progress-item { width: 100%; }
+.progress-label { display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: bold; margin-bottom: 6px; color: var(--teks-utama); }
+.progress-bar-bg { width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; }
+.progress-bar-fill { height: 100%; background: var(--hijau); width: 0%; transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); }
+
+/* --- GRAFIK 7 HARI & JACKPOT USER --- */
+.chart-wrapper { display: flex; height: 150px; margin-top: 5px; border-bottom: 1px solid var(--kaca-border); padding-bottom: 5px; }
+.chart-y-axis { display: flex; flex-direction: column; justify-content: space-between; width: 35px; font-size: 0.75rem; color: var(--teks-pudar); text-align: right; padding-right: 8px; border-right: 1px solid var(--kaca-border); font-variant-numeric: tabular-nums; }
+.chart-bars { flex: 1; display: flex; justify-content: space-around; align-items: flex-end; padding-left: 5px; }
+.chart-bar-group { display: flex; flex-direction: column; align-items: center; width: 12%; height: 100%; justify-content: flex-end; }
+.bar { width: 100%; background: #0ea5e9; border-radius: 3px 3px 0 0; transition: height 0.5s ease, background 0.3s; cursor: pointer; min-height: 2px; border: 1px solid #0284c7; border-bottom: none; }
+.bar:hover, .bar.active { background: #1e3a8a; border-color: #1e40af; box-shadow: 0 0 10px rgba(30, 58, 138, 0.5); }
+.bar.izin { background: #f59e0b; border-color: #d97706; }
+.bar.izin:hover, .bar.izin.active { background: #b45309; }
+.bar-label { font-size: 0.7rem; margin-top: 5px; color: var(--teks-pudar); font-weight: bold; }
+.chart-detail { text-align: center; font-size: 1.1rem; font-weight: bold; color: var(--putih); margin: 15px 0; min-height: 26px; }
+
+.jackpot-wrapper { position: relative; height: 120px; overflow: hidden; border: 1px solid var(--kaca-border); border-radius: 8px; background: rgba(0,0,0,0.3); box-shadow: inset 0 0 15px rgba(0,0,0,0.5); }
+.jackpot-container { height: 100%; overflow-y: auto; scroll-snap-type: y mandatory; scrollbar-width: none; padding: 40px 0; scroll-behavior: smooth; }
+.jackpot-container::-webkit-scrollbar { display: none; }
+.jackpot-item { height: 40px; line-height: 40px; text-align: center; scroll-snap-align: center; font-size: 1.1rem; color: var(--teks-pudar); transition: 0.2s; cursor: pointer; }
+.jackpot-item.active { color: var(--aksen); font-weight: bold; font-size: 1.3rem; text-shadow: 0 0 8px rgba(241, 196, 15, 0.4); }
+.jackpot-pointer { position: absolute; top: 50%; left: 15px; transform: translateY(-50%); color: var(--putih); font-size: 1.2rem; pointer-events: none; z-index: 2; }
+.jackpot-highlight { position: absolute; top: 40px; left: 0; width: 100%; height: 40px; border-top: 1px solid rgba(255,255,255,0.2); border-bottom: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); pointer-events: none; z-index: 1; }
+
+/* LOGIN & GERBANG */
+.btn-logout { position: absolute; top: 20px; right: 30px; background: transparent; border: none; font-size: 2rem; cursor: pointer; transition: transform 0.3s ease; z-index: 30; }
+.btn-logout:hover { transform: scale(1.2); }
+.layer-login { position: absolute; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; z-index: 20; transition: opacity 0.8s ease, visibility 0.8s; background: rgba(0, 0, 0, 0.7); }
+.layer-login.hilang { opacity: 0; visibility: hidden; }
+.form-login { background: #1e272c; padding: 40px; border-radius: 12px; border: 2px solid var(--kaca-border); box-shadow: 0 0 25px rgba(0, 0, 0, 0.8); width: 320px; text-align: center; }
+.form-login h2 { color: #f1c40f; margin-bottom: 20px; }
+.form-login input { width: 100%; padding: 12px; margin-bottom: 15px; background: rgba(0,0,0,0.4); color: white; border: 1px solid var(--kaca-border); border-radius: 6px; outline: none; }
+.form-login input:focus { border-color: var(--hijau); }
+.form-login button { width: 100%; padding: 12px; background: var(--hijau-gelap); color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
+.form-login button:hover { background: var(--hijau); }
+#pesanError { color: #ff4757; font-size: 0.9rem; margin-bottom: 15px; display: none; }
+.screen-gerbang { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; z-index: 10; pointer-events: none; }
+.sisi-gerbang { position: relative; width: 50%; height: 100%; background-color: #4a0e17; transition: transform 1.8s cubic-bezier(0.77, 0, 0.175, 1); display: flex; align-items: flex-end; pointer-events: auto; }
+.gerbang-kiri { transform-origin: left center; border-right: 4px solid #f1c40f; justify-content: flex-end; }
+.gerbang-kanan { transform-origin: right center; border-left: 4px solid #f1c40f; justify-content: flex-start; }
+.pilar { position: absolute; bottom: 0; width: 50px; height: 85%; background: linear-gradient(to right, #962d22, #c0392b, #7f261e); }
+.gerbang-kiri .pilar { left: 10%; } .gerbang-kanan .pilar { right: 10%; }
+.daun-pintu { width: 100%; height: 75%; background: #78131e; border: 15px solid #5c0f17; display: flex; justify-content: center; align-items: center; }
+.ornamen-kotak { width: 70%; height: 80%; border: 4px solid #f1c40f; background-image: linear-gradient(rgba(241, 196, 15, 0.3) 2px, transparent 2px), linear-gradient(90deg, rgba(241, 196, 15, 0.3) 2px, transparent 2px); background-size: 40px 40px; }
+.atap-kiri { right: 0; border-radius: 100px 0 0 0; } .atap-kanan { left: 0; border-radius: 0 100px 0 0; }
+.screen-gerbang.terbuka .gerbang-kiri { transform: translateX(-100%); }
+.screen-gerbang.terbuka .gerbang-kanan { transform: translateX(100%); }
+
+/* RESPONSIVE */
+@media (min-width: 768px) { .magnetic-card { min-width: 350px; max-width: 350px; height: 500px; } }
