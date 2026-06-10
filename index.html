@@ -1,147 +1,235 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beta Clone</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f5f5f5;
-        }
-
-        header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 2rem 0;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .subtitle {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-
-        main {
-            background: white;
-            margin: 2rem 0;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        h2 {
-            color: #667eea;
-            margin-bottom: 1rem;
-            font-size: 1.8rem;
-        }
-
-        p {
-            margin-bottom: 1rem;
-            text-align: justify;
-        }
-
-        footer {
-            background: #333;
-            color: white;
-            text-align: center;
-            padding: 2rem 0;
-            margin-top: 2rem;
-        }
-
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-
-        .feature-card {
-            background: #f9f9f9;
-            padding: 1.5rem;
-            border-radius: 6px;
-            border-left: 4px solid #667eea;
-            transition: transform 0.3s ease;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .feature-card h3 {
-            color: #667eea;
-            margin-bottom: 0.5rem;
-        }
-    </style>
+  <title>Laporan ODOJ Mumtaz</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <header>
-        <div class="container">
-            <h1>Beta Clone</h1>
-            <p class="subtitle">Versi Beta - Platform Inovatif</p>
+  <div class="konten-utama" id="irowkz">
+    <button type="button" class="btn-logout" id="btnTutup" title="Logout">🔒</button>
+
+    <div class="screen-only w-full">
+      <nav class="navbar glass-panel">
+        <a href="#" onclick="bukaHalaman('beranda', this)" class="active">Beranda</a>
+        <a href="#" onclick="bukaHalaman('statistik', this)">Statistik</a>
+        <a href="#" onclick="bukaHalaman('profil', this)">Profil</a>
+      </nav>
+      
+      <div id="page-beranda" class="page-container active">
+        <div class="header-title">
+          <h1 style="color: #f1c40f;">Alhamdulillah</h1>
+          <p>Silakan gulir kartu di bawah untuk mengisi laporan amaliyah Anda.</p>
         </div>
-    </header>
-
-    <div class="container">
-        <main>
-            <h2>Selamat Datang</h2>
-            <p>
-                Ini adalah halaman utama dari Beta Clone, sebuah proyek yang sedang dalam tahap pengembangan beta. 
-                Platform ini dirancang untuk memberikan pengalaman pengguna yang optimal dan inovatif.
-            </p>
-
-            <h2>Fitur Utama</h2>
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <h3>⚡ Cepat</h3>
-                    <p>Dioptimalkan untuk performa tinggi dan respons cepat.</p>
+        
+        <div class="card-scroller">
+          <div class="magnetic-card glass-panel">
+            <div class="card-header"><h2 class="card-title">Laporan</h2></div>
+            <div class="list-container">
+              <form id="formReport" class="form-amaliyah">
+                <div class="form-row">
+                  <div class="input-grup"><label>TILAWAH JUZ</label><input type="number" id="inputTJ" placeholder="1-30" min="1" max="30"></div>
+                  <div class="input-grup">
+                    <label>TILAWAH</label>
+                    <select id="selectTilawah"><option value="">-- PILIH --</option><option value="T-K">TILAWAH KHOLAS</option><option value="T-TK">TDK KHOLAS</option><option value="T-M">MUROTTAL</option><option value="T-T">TERJEMAH</option></select>
+                  </div>
                 </div>
-                <div class="feature-card">
-                    <h3>🎨 Desain Modern</h3>
-                    <p>Antarmuka yang intuitif dan menarik secara visual.</p>
+                <div class="form-row">
+                  <div class="input-grup">
+                    <label>DHUHA</label>
+                    <select id="selectDhuha"><option value="">-- PILIH --</option><option value="SD-D">SHOLAT DHUHA</option><option value="SD-TD">TDK KHOLAS</option><option value="SD-H">HAID</option></select>
+                  </div>
+                  <div class="input-grup">
+                    <label>TAHAJJUD</label>
+                    <select id="selectTahajjud"><option value="">-- PILIH --</option><option value="ST-T">TAHAJJUD</option><option value="ST-TT">TDK KHOLAS</option><option value="ST-H">HAID</option></select>
+                  </div>
                 </div>
-                <div class="feature-card">
-                    <h3>🔒 Aman</h3>
-                    <p>Keamanan data pengguna adalah prioritas utama kami.</p>
+                <div class="form-row">
+                  <div class="input-grup">
+                    <label>FAJAR</label>
+                    <select id="selectFajar"><option value="">-- PILIH --</option><option value="SF-F">SHOLAT FAJAR</option><option value="SF-TF">TDK KHOLAS</option><option value="SF-H">HAID</option></select>
+                  </div>
+                  <div class="input-grup">
+                    <label>DZIKIR</label>
+                    <select id="selectDzikir"><option value="">-- PILIH --</option><option value="D-K">KHOLAS</option><option value="D-PG">PAGI</option><option value="D-PT">PETANG</option><option value="D-TK">TDK KHOLAS</option><option value="IZIN" style="color: #f1c40f; font-weight: bold;">IZIN</option></select>
+                  </div>
                 </div>
-                <div class="feature-card">
-                    <h3>📱 Responsive</h3>
-                    <p>Bekerja sempurna di semua perangkat dan ukuran layar.</p>
-                </div>
+                <div id="timerReport" class="timer-container"></div>
+                <button type="submit" id="btnKirimReport">Kirim Laporan</button>
+              </form>
             </div>
-
-            <h2>Tentang Proyek</h2>
-            <p>
-                Beta Clone adalah proyek yang terus berkembang dengan tujuan memberikan solusi terbaik 
-                bagi pengguna. Kami berkomitmen untuk terus berinovasi dan meningkatkan kualitas layanan.
-            </p>
-        </main>
-    </div>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 Beta Clone. Semua hak dilindungi.</p>
+          </div>
+          <div class="magnetic-card glass-panel">
+            <div class="card-header"><h2 class="card-title">Mutaba'ah</h2></div>
+            <div id="listMutabaah" class="list-container mutabaah-container"><div id="loadingMutabaah" style="text-align: center; color: var(--teks-pudar);">Memuat data mutaba'ah...</div></div>
+          </div>
+          <div class="magnetic-card glass-panel">
+            <div class="card-header"><h2 class="card-title">Bidadari Surga</h2></div>
+            <div id="listBidadari" class="list-container bidadari-container"><div id="loadingBidadari" style="text-align: center; color: var(--teks-pudar);">Memuat bidadari surga...</div></div>
+          </div>
         </div>
-    </footer>
+      </div>
+
+      <div id="page-statistik" class="page-container">
+        <div class="header-title">
+          <h1 style="color: #2ecc71;">Statistik Harian</h1>
+          <p id="tglStatistik" style="color: #f1c40f; font-weight: bold;">Memuat sesi...</p>
+        </div>
+        
+        <div class="card-scroller">
+          
+          <div class="magnetic-card glass-panel" style="min-width: 85vw; max-width: 85vw; display: flex; flex-direction: column;">
+            <div class="card-header"><h2 class="card-title">Riwayat 7 Hari</h2></div>
+            <div class="list-container" style="overflow: hidden; justify-content: space-between; padding-right: 0;">
+              
+              <div class="chart-wrapper">
+                <div class="chart-y-axis"><span>500</span><span>250</span><span>0</span></div>
+                <div class="chart-bars" id="personalChart">
+                  </div>
+              </div>
+
+              <div id="chartDetail" class="chart-detail">
+                Geser nama di bawah & klik grafik
+              </div>
+
+              <div class="jackpot-wrapper">
+                <div class="jackpot-highlight"></div>
+                <div class="jackpot-pointer">▶</div>
+                <div class="jackpot-container" id="jackpotContainer">
+                  </div>
+              </div>
+              
+            </div>
+          </div>
+
+          <div class="magnetic-card glass-panel">
+            <div class="card-header"><h2 class="card-title">Ringkasan</h2></div>
+            <div class="list-container">
+              <div class="statistik-grid w-full">
+                <div class="stat-card">
+                  <div class="stat-label">Total Jamaah</div>
+                  <div class="stat-angka" id="stat-total">0</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-label" style="color:#2ecc71;">Selesai (5/5)</div>
+                  <div class="stat-angka" id="stat-selesai" style="color:#2ecc71;">0</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-label" style="color:#e74c3c;">Belum Tuntas</div>
+                  <div class="stat-angka" id="stat-belum" style="color:#e74c3c;">0</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-label" style="color:#f39c12;">Jamaah Izin</div>
+                  <div class="stat-angka" id="stat-izin" style="color:#f39c12;">0</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="magnetic-card glass-panel">
+            <div class="card-header"><h2 class="card-title">Partisipasi</h2></div>
+            <div class="list-container">
+              <div class="progress-container">
+                <div class="progress-item">
+                  <div class="progress-label"><span>Tilawah</span><span class="pct">0%</span></div>
+                  <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog-tilawah"></div></div>
+                </div>
+                <div class="progress-item">
+                  <div class="progress-label"><span>Sholat Dhuha</span><span class="pct">0%</span></div>
+                  <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog-dhuha"></div></div>
+                </div>
+                <div class="progress-item">
+                  <div class="progress-label"><span>Sholat Tahajjud</span><span class="pct">0%</span></div>
+                  <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog-tahajjud"></div></div>
+                </div>
+                <div class="progress-item">
+                  <div class="progress-label"><span>Sholat Fajar</span><span class="pct">0%</span></div>
+                  <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog-fajar"></div></div>
+                </div>
+                <div class="progress-item">
+                  <div class="progress-label"><span>Dzikir</span><span class="pct">0%</span></div>
+                  <div class="progress-bar-bg"><div class="progress-bar-fill" id="prog-dzikir"></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="magnetic-card glass-panel">
+            <div class="card-header"><h2 class="card-title">Info Sesi</h2></div>
+            <div class="list-container" style="text-align: center; justify-content: center;">
+              <div style="font-size: 4rem; margin-bottom: 10px; line-height: 1;">🕒</div>
+              <h3 style="color: #2ecc71; margin-bottom: 10px;">Sesi Aktif</h3>
+              <p style="color: var(--teks-pudar); font-size: 0.95rem; line-height: 1.5;">Pengisian laporan dibuka mulai jam 15.00 sampai jam 08.00 keesokan harinya ya...</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div id="page-profil" class="page-container">
+        <div class="header-title">
+          <h1 style="color: #3498db;">Profil Akun</h1>
+          <p>Informasi personal dan pengaturan sandi Anda.</p>
+        </div>
+        
+        <div class="card-scroller">
+          <div class="magnetic-card glass-panel">
+            <div class="card-header"><h2 class="card-title" style="color: #3498db;">Data Diri</h2></div>
+            <div class="list-container" style="text-align: center; justify-content: center;">
+              <div style="font-size: 4rem; margin-bottom: 15px; line-height: 1;">🧕🏻</div>
+              <h2 id="profilUsername" style="color: #f1c40f; margin-bottom: 10px; font-size: 1.8rem;">MEMUAT...</h2>
+              <div><span class="status-badge badge-hijau" style="font-size: 0.9rem; padding: 6px 12px;">Jamaah Aktif</span></div>
+            </div>
+          </div>
+
+          <div class="magnetic-card glass-panel">
+            <div class="card-header"><h2 class="card-title" style="color: #3498db;">Prestasi</h2></div>
+            <div class="list-container" style="text-align: center; justify-content: center;">
+              <div style="font-size: 4rem; margin-bottom: 15px; line-height: 1;">🏆</div>
+              <p style="color: var(--teks-pudar); font-size: 0.95rem;">Fitur Lencana dan Poin Kebaikan akan segera hadir. Teruslah beristiqomah!</p>
+            </div>
+          </div>
+
+          <div class="magnetic-card glass-panel">
+            <div class="card-header"><h2 class="card-title" style="color: #e74c3c;">Keamanan</h2></div>
+            <div class="list-container">
+              <form id="formGantiPassword" class="form-amaliyah" style="display: flex; flex-direction: column; height: 100%; justify-content: center;">
+                <div class="input-grup" style="margin-bottom: 15px;">
+                  <label>PASSWORD LAMA</label>
+                  <input type="password" id="passLama" placeholder="Kosongkan jika belum buat" autocomplete="off">
+                </div>
+                <div class="input-grup" style="margin-bottom: 20px;">
+                  <label>PASSWORD BARU</label>
+                  <input type="password" id="passBaru" placeholder="Min. 6 Karakter" minlength="6" required autocomplete="off">
+                </div>
+                <button type="submit" style="background: #e74c3c; box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);">Update Sandi</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+  <div id="loginLayer" class="layer-login">
+    <div class="form-login">
+      <h2>Selamat Datang</h2>
+      <p id="pesanError"></p>
+      <input type="text" id="inputUsername" placeholder="Username" autocomplete="off">
+      <input type="password" id="inputPassword" placeholder="Password">
+      <button type="button" id="btnBuka">LOGIN</button>
+    </div>
+  </div>
+  
+  <div id="gerbangUtama" class="screen-gerbang">
+    <div class="sisi-gerbang gerbang-kiri"><div class="pilar"></div><div class="daun-pintu"><div class="ornamen-kotak"></div></div></div>
+    <div class="sisi-gerbang gerbang-kanan"><div class="pilar"></div><div class="daun-pintu"><div class="ornamen-kotak"></div></div></div>
+  </div>
+  
+  <script src="script.js"></script>
 </body>
 </html>
