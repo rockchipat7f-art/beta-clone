@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Admin Panel - ODOJ Mumtaz</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="stylesheet" href="admin-odoj.css">
+</head>
+<body>
+  <div id="loginAdminLayer" class="login-layer">
+    <div class="login-box">
+      <h2>🛡️ Admin Akses</h2>
+      <p>Bismillah, masukkan kata sandi:</p>
+      <input type="password" id="adminPass" placeholder="Password Admin" autocomplete="off">
+      <button type="button" onclick="cekLoginAdmin()">Masuk</button>
+    </div>
+  </div>
+
+  <div class="admin-container" id="adminContent" style="display: none;">
+    <header>
+      <h1>⚙️ Admin Mumtaz</h1>
+      <button class="btn-logout" onclick="logoutAdmin()">Keluar</button>
+    </header>
+
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="bukaTab('tabUser')">👥 User</button>
+      <button class="tab-btn" onclick="bukaTab('tabLaporan')">📊 Laporan</button>
+      <button class="tab-btn" onclick="bukaTab('tabRekap'); muatRekapHarian();">📋 Rekap</button>
+    </div>
+
+    <!-- TAB 1: USER -->
+    <section id="tabUser" class="tab-content active">
+      <div class="card">
+        <h2>Tambah User Baru</h2>
+        <form id="formAddUser" class="admin-form">
+          <input type="text" id="newUsername" placeholder="Username (cth: FULAN)" required>
+          <input type="text" id="newPassword" placeholder="Password (Kosongkan jika tanpa pass)">
+          <button type="submit" class="btn-tambah">Tambah User</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <div class="card-header-flex">
+          <h2>Daftar User</h2>
+          <select id="sortUser" onchange="muatDataUser()">
+            <option value="id_asc">ID (Kecil-Besar)</option>
+            <option value="id_desc">ID (Besar-Kecil)</option>
+            <option value="nama_asc">Abjad (A-Z)</option>
+            <option value="nama_desc">Abjad (Z-A)</option>
+          </select>
+        </div>
+        <div id="listUser" class="data-list">
+          <div class="loading-teks">Memuat data user...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: LAPORAN -->
+    <section id="tabLaporan" class="tab-content">
+      <div class="card form-highlight">
+        <h2 id="judulFormLaporan">Tambah Laporan Baru</h2>
+        <form id="formAdminReport" class="admin-form">
+          <input type="hidden" id="editReportId"> 
+          
+          <div class="input-grup">
+            <label>PILIH USER</label>
+            <select id="adminSelectUser" required>
+              <option value="">-- Pilih User --</option>
+            </select>
+          </div>
+
+          <div class="input-grup">
+            <label>TILAWAH JUZ</label>
+            <input type="number" id="adminTJ" placeholder="Angka 1-30" min="1" max="30">
+          </div>
+          <div class="input-grup">
+            <label>TILAWAH</label>
+            <select id="adminTilawah">
+              <option value="">-- KOSONG --</option>
+              <option value="T-K">TILAWAH KHOLAS</option>
+              <option value="T-TK">TDK KHOLAS</option>
+              <option value="T-M">MUROTTAL</option>
+              <option value="T-T">TERJEMAH</option>
+            </select>
+          </div>
+          <div class="input-grup">
+            <label>DHUHA</label>
+            <select id="adminDhuha">
+              <option value="">-- KOSONG --</option>
+              <option value="SD-D">SHOLAT DHUHA</option>
+              <option value="SD-TD">TDK KHOLAS</option>
+              <option value="SD-H">HAID</option>
+            </select>
+          </div>
+          <div class="input-grup">
+            <label>TAHAJJUD</label>
+            <select id="adminTahajjud">
+              <option value="">-- KOSONG --</option>
+              <option value="ST-T">TAHAJJUD</option>
+              <option value="ST-TT">TDK KHOLAS</option>
+              <option value="ST-H">HAID</option>
+            </select>
+          </div>
+          <div class="input-grup">
+            <label>FAJAR</label>
+            <select id="adminFajar">
+              <option value="">-- KOSONG --</option>
+              <option value="SF-F">SHOLAT FAJAR</option>
+              <option value="SF-TF">TDK KHOLAS</option>
+              <option value="SF-H">HAID</option>
+            </select>
+          </div>
+          <div class="input-grup">
+            <label>DZIKIR</label>
+            <select id="adminDzikir">
+              <option value="">-- KOSONG --</option>
+              <option value="D-K">KHOLAS</option>
+              <option value="D-PG">PAGI</option>
+              <option value="D-PT">PETANG</option>
+              <option value="D-TK">TDK KHOLAS</option>
+              <option value="IZIN" style="color:#d35400; font-weight:bold;">IZIN</option>
+            </select>
+          </div>
+          
+          <div class="action-buttons">
+            <button type="submit" id="btnAdminSubmitLaporan" class="btn-tambah">Simpan Laporan</button>
+            <button type="button" id="btnBatalEdit" class="btn-hapus" style="display: none;" onclick="batalEdit()">Batal</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>Riwayat Laporan</h2>
+        <div id="listLaporan" class="data-list">
+          <div class="loading-teks">Memuat data laporan...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: REKAP HARIAN (BARU) -->
+    <section id="tabRekap" class="tab-content">
+      <div class="card">
+        <div class="card-header-flex">
+          <h2>Rekap Harian Sesi Ini</h2>
+          <button id="btnCopyRekap" class="btn-toggle" style="background: var(--biru);" onclick="copyRekap()">📋 COPY TEKS</button>
+        </div>
+        <p style="font-size: 0.85rem; color: #7f8c8d; margin-bottom: 15px;">Format siap disalin (copy) ke grup WhatsApp.</p>
+        
+        <div id="tempatRekap" class="rekap-box">
+          <div class="loading-teks">Memuat rekap...</div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="admin-odoj.js"></script>
+</body>
+</html>
