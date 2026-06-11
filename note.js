@@ -1,53 +1,55 @@
-// Ganti dengan kredensial dari dashboard Supabase-mu
-const SUPABASE_URL = 'https://your-project.supabase.co';
-const SUPABASE_KEY = 'your-anon-key';
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabaseUrl = 'https://udlnluanzqlxpvdpzzzh.supabase.co'; 
+const supabaseKey = 'sb_publishable_wqhi-fyHbJEzsh0FYG7tvw_zJGdDPHr'; 
+const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-const titleInput = document.getElementById('note-title');
-const contentInput = document.getElementById('note-content');
-const addBtn = document.getElementById('add-btn');
-const notesList = document.getElementById('notes-list');
+// Pastikan nama tabel kamu di Supabase disesuaikan di bawah ini (contoh: 'notes')
+const NAMA_TABEL = 'note'; 
 
-// Fungsi ambil data
-async function fetchNotes() {
-    const { data, error } = await supabase
-        .from('notes') // Pastikan nama table di Supabase adalah 'notes'
-        .select('*')
-        .order('created_at', { ascending: false });
+const txtUmmi = document.getElementById('note-ummi');
+const txtRohmad = document.getElementById('note-rohmad');
+const btnUmmi = document.getElementById('btn-ummi');
+const btnRohmad = document.getElementById('btn-rohmad');
 
-    if (error) console.error('Error:', error);
-    else renderNotes(data);
-}
+// 1. Ambil data yang sudah ada di database saat web dibuka
+async function loadData() {
+    const { data, error } = await supabaseClient
+        .from(NAMA_TABEL)
+        .select('tabel_kiri, tabel_kanan')
+        .eq('id', 1)
+        .single();
 
-// Fungsi tampilkan data ke HTML
-function renderNotes(notes) {
-    notesList.innerHTML = '';
-    notes.forEach(note => {
-        const div = document.createElement('div');
-        div.className = 'note-card';
-        div.innerHTML = `<h3>${note.title}</h3><p>${note.content}</p>`;
-        notesList.appendChild(div);
-    });
-}
-
-// Fungsi tambah data
-addBtn.addEventListener('click', async () => {
-    const title = titleInput.value;
-    const content = contentInput.value;
-
-    if (!title || !content) return alert('Isi dulu wakk!');
-
-    const { error } = await supabase
-        .from('notes')
-        .insert([{ title, content }]);
-
-    if (error) alert('Gagal simpan!');
-    else {
-        titleInput.value = '';
-        contentInput.value = '';
-        fetchNotes();
+    if (error) console.error('Gagal memuat data:', error);
+    if (data) {
+        txtUmmi.value = data.tabel_kiri || '';
+        txtRohmad.value = data.tabel_kanan || '';
     }
+}
+
+// 2. Tombol Simpan untuk Ummi (Update kolom tabel_kiri)
+btnUmmi.addEventListener('click', async () => {
+    btnUmmi.innerText = 'Menyimpan...';
+    const { error } = await supabaseClient
+        .from(NAMA_TABEL)
+        .update({ tabel_kiri: txtUmmi.value })
+        .eq('id', 1);
+
+    btnUmmi.innerText = 'Simpan Catatan Ummi';
+    if (error) alert('Gagal menyimpan catatan Ummi wakk!');
+    else alert('Catatan Ummi berhasil diperbarui!');
 });
 
-// Jalankan saat load pertama kali
-fetchNotes();
+// 3. Tombol Simpan untuk Rohmad (Update kolom tabel_kanan)
+btnRohmad.addEventListener('click', async () => {
+    btnRohmad.innerText = 'Menyimpan...';
+    const { error } = await supabaseClient
+        .from(NAMA_TABEL)
+        .update({ tabel_kanan: txtRohmad.value })
+        .eq('id', 1);
+
+    btnRohmad.innerText = 'Simpan Catatan Rohmad';
+    if (error) alert('Gagal menyimpan catatan Rohmad wakk!');
+    else alert('Catatan Rohmad berhasil diperbarui!');
+});
+
+// Jalankan fungsi load data saat halaman selesai dimuat
+loadData();
