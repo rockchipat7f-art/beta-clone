@@ -3,28 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catatan Kim</title>
+    <title>Catatan Bersama</title>
     <link rel="stylesheet" href="note.css">
-    <!-- Load Supabase JS Library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-    <div class="container">
-        <h1>Catatan Saya</h1>
-        
-        <div class="input-section">
-            <input type="text" id="note-title" placeholder="Judul catatan...">
-            <textarea id="note-content" placeholder="Tulis sesuatu..."></textarea>
-            <button id="add-btn">Simpan Catatan</button>
+    <div class="workspace">
+        <div class="col-note">
+            <h2>Catatan Ummi (Sudariku)</h2>
+            <textarea id="note-ummi" placeholder="Tulis catatanmu di sini, Ummi..."></textarea>
+            <button id="btn-ummi">Simpan Catatan Ummi</button>
         </div>
 
-        <hr>
-
-        <div id="notes-list" class="notes-container">
-            <!-- Catatan akan muncul di sini -->
+        <div class="col-note">
+            <h2>Catatan Rohmad</h2>
+            <textarea id="note-rohmad" placeholder="Tulis catatanmu di sini, Rohmad..."></textarea>
+            <button id="btn-rohmad">Simpan Catatan Rohmad</button>
         </div>
     </div>
-
     <script src="note.js"></script>
 </body>
 </html>
