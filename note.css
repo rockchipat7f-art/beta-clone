@@ -5,25 +5,9 @@ h2 { margin: 0 0 10px 0; color: #333; font-size: 1.2rem; }
 textarea { width: 100%; height: 350px; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; resize: none; box-sizing: border-box; }
 button { padding: 12px; background-color: #24b47e; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.9rem; }
 button:hover { background-color: #1c8c61; }
-
-/* --- Rombakan Efek Swipe Magnet di HP (Lebar Maksimal 768px) --- */
 @media (max-width: 768px) {
-  body { padding: 0; overflow: hidden; } /* Matikan scroll utama body */
-  .workspace { 
-    gap: 0; 
-    overflow-x: auto; /* Aktifkan scroll horizontal (kiri-kanan) */
-    scroll-snap-type: x mandatory; /* Efek magnet horizontal wajib aktif */
-    -webkit-overflow-scrolling: touch; /* Biar swipe di iOS/HP lancar */
-    width: 100vw; 
-    height: 100vh; 
-  }
-  .col-note { 
-    min-width: 100vw; /* Setiap kartu wajib selebar layar HP */
-    height: 100vh; 
-    border-radius: 0; 
-    box-sizing: border-box; 
-    padding: 20px; 
-    scroll-snap-align: start; /* Magnet akan mengunci kartu pas di awal layar */
-  }
-  textarea { flex: 1; height: auto; } /* Kotak ketik otomatis maksimal tingginya */
+  body { padding: 0; overflow: hidden; }
+  .workspace { gap: 0; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; width: 100vw; height: 100vh; }
+  .col-note { min-width: 100vw; height: 100vh; border-radius: 0; box-sizing: border-box; padding: 20px; scroll-snap-align: start; scroll-snap-stop: always; }
+  textarea { flex: 1; height: auto; }
 }
