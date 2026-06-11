@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catatan Kim</title>
+    <link rel="stylesheet" href="note.css">
+    <!-- Load Supabase JS Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Catatan Saya</h1>
+        
+        <div class="input-section">
+            <input type="text" id="note-title" placeholder="Judul catatan...">
+            <textarea id="note-content" placeholder="Tulis sesuatu..."></textarea>
+            <button id="add-btn">Simpan Catatan</button>
+        </div>
+
+        <hr>
+
+        <div id="notes-list" class="notes-container">
+            <!-- Catatan akan muncul di sini -->
+        </div>
+    </div>
+
+    <script src="note.js"></script>
+</body>
+</html>
