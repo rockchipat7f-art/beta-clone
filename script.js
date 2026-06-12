@@ -429,27 +429,29 @@ document.addEventListener("DOMContentLoaded", function() {
     const containerMutabaah = document.getElementById('listMutabaah');
     if(containerMutabaah) containerMutabaah.innerHTML = htmlMutabaah;
 
-    let izin = [];
-    let belumSelesai = [];
-    let sudahSelesai = [];
+    let izin = []; let alpa = []; let belumSelesai = []; let sudahSelesai = [];
 
     if (userAktif) {
       userAktif.forEach(u => {
         let repUser = laporanHariIni.find(r => r.user === u.username);
         if (!repUser) { belumSelesai.push(u.username); } 
         else if (repUser['D-K'] === 2) { izin.push(u.username); } 
+        else if (repUser['D-K'] === 3) { alpa.push(u.username); } // PISAHKAN ALPA
         else if (isLengkap(repUser)) { sudahSelesai.push(u.username); } 
         else { belumSelesai.push(u.username); }
       });
     }
 
     let htmlBidadari = '';
-    if (izin.length > 0) {
-      izin.forEach(uname => {
+    
+    // Nampilin yang Alpa paling atas dengan peringatan
+    if (alpa.length > 0) {
+      alpa.forEach(uname => {
+        let xIcons = Array(hitungAlpaBeruntun(uname)).fill('❌').join('');
         htmlBidadari += `
-          <div class="bidadari-item bidadari-izin">
-            <span>${uname}</span> 
-            <span class="status-badge badge-kuning">Izin 🤍</span>
+          <div class="bidadari-item" style="border-left: 4px solid #c0392b; background: rgba(192, 57, 43, 0.1);">
+            <span style="color:#e74c3c;">${uname}</span> 
+            <span class="status-badge badge-merah">Alpa ${xIcons}</span>
           </div>`;
       });
       htmlBidadari += `<hr class="garis-pembatas">`;
