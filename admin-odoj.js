@@ -233,6 +233,8 @@ let teksRekapGlobal = "";
 
 function getIkonRekap(rep) {
   if (rep['D-K'] === 2) return 'ℹ️';
+  if (rep['D-K'] === 3) return '❌'; // Tambahan pembacaan ALPA
+  
   let ikon = [];
   if (rep['T-K'] === 100) ikon.push('✅'); else if (rep['T-M'] === 100) ikon.push('🎧'); else if (rep['T-T'] === 100) ikon.push('🔀'); else if (rep['T-TK'] === 0) ikon.push('💔'); else ikon.push('➖');
   if (rep['SD-D'] === 100) ikon.push('✅'); else if (rep['SD-TD'] === 0) ikon.push('💔'); else if (rep['SD-H'] === 1) ikon.push('🚺'); else ikon.push('➖');
@@ -257,8 +259,10 @@ async function muatRekapHarian() {
   let htmlOutput = `<div style="color:var(--hijau); font-weight:bold; margin-bottom:15px;">🌹 LAPORAN TILAWAH ODOJ MUMTAZ...<br>${tglKemarin}<br><br><span style="color:var(--gelap);">Admin : .......</span></div>`;     
 
   let adaData = false;
+  
+  // 1. Loop untuk Juz 1-30 yang Lapor Normal / Izin
   for (let i = 1; i <= 30; i++) {
-    let repJuzList = laporanSesiIni.filter(r => r['T-J'] === i);
+    let repJuzList = laporanSesiIni.filter(r => r['T-J'] === i && r['D-K'] !== 3); // Singkirkan yang ALPA dari list Juz
     if (repJuzList.length > 0) {
       adaData = true;
       let namaJuz = i.toString().padStart(2, '0');
@@ -271,6 +275,20 @@ async function muatRekapHarian() {
       });
       teksRekapGlobal += `\n`; htmlOutput += `<br>`;
     }
+  }
+
+  // 2. Loop Khusus untuk yang ALPA (Tanpa Juz)
+  let repAlpaList = laporanSesiIni.filter(r => r['D-K'] === 3);
+  if (repAlpaList.length > 0) {
+    adaData = true;
+    teksRekapGlobal += `*TANPA KETERANGAN / ALPA*\n`;
+    htmlOutput += `<div class="rekap-juz-title" style="color:var(--merah);">*TANPA KETERANGAN / ALPA*</div>`;
+    repAlpaList.forEach(rep => {
+      let ikon = getIkonRekap(rep);
+      teksRekapGlobal += `* ${rep.user} : ${ikon}\n`;
+      htmlOutput += `<div class="rekap-user-row">* ${rep.user} : ${ikon}</div>`;
+    });
+    teksRekapGlobal += `\n`; htmlOutput += `<br>`;
   }
 
   if (!adaData) {
