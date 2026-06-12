@@ -231,10 +231,24 @@ async function tandaiAlpa() {
 // ==========================================
 let teksRekapGlobal = "";
 
-function getIkonRekap(rep) {
+// --- HITUNG ALPA UNTUK REKAP ADMIN ---
+function getConsecutiveAlpaAdmin(username, semuaLaporan) {
+  let reps = semuaLaporan.filter(r => r.user === username);
+  let count = 0;
+  for (let r of reps) {
+    if (r['D-K'] === 3) count++;
+    else break;
+  }
+  return count > 0 ? count : 1;
+}
+
+// --- IKON UNTUK FORMAT WA ---
+function getIkonRekap(rep, semuaLaporan) {
   if (rep['D-K'] === 2) return 'ℹ️';
-  if (rep['D-K'] === 3) return '❌'; // Tambahan pembacaan ALPA
   
+  // Jika ALPA, gabungkan X sesuai jumlah hari beruntun tanpa spasi (❌❌❌)
+  if (rep['D-K'] === 3) return Array(getConsecutiveAlpaAdmin(rep.user, semuaLaporan)).fill('❌').join('');
+
   let ikon = [];
   if (rep['T-K'] === 100) ikon.push('✅'); else if (rep['T-M'] === 100) ikon.push('🎧'); else if (rep['T-T'] === 100) ikon.push('🔀'); else if (rep['T-TK'] === 0) ikon.push('💔'); else ikon.push('➖');
   if (rep['SD-D'] === 100) ikon.push('✅'); else if (rep['SD-TD'] === 0) ikon.push('💔'); else if (rep['SD-H'] === 1) ikon.push('🚺'); else ikon.push('➖');
