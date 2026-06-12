@@ -201,6 +201,30 @@ document.getElementById('formAdminReport').addEventListener('submit', async (e) 
   else { const { error } = await supabaseClient.from('table_data_report').insert([payload]); if (error) alert("Gagal simpan: " + error.message); else { alert("Sukses tambah!"); batalEdit(); muatDataLaporan(); } }
 });
 
+// --- FUNGSI TANDAI ALPA / TANPA KABAR ---
+async function tandaiAlpa() {
+  const userDipilih = document.getElementById('adminSelectUser').value;
+  if(!userDipilih) { alert("Pilih user dulu wakk!"); return; }
+  if(!confirm(`Yakin mau tandai ${userDipilih} ALPA (Tanpa Kabar) hari ini?`)) return;
+
+  // Kode 3 = ALPA (Tidak Lapor)
+  const payload = {
+    user: userDipilih, 'T-J': null,
+    'T-K': 3, 'T-TK': null, 'T-M': null, 'T-T': null,
+    'SD-D': 3, 'SD-TD': null, 'SD-H': null,
+    'ST-T': 3, 'ST-TT': null, 'ST-H': null,
+    'SF-F': 3, 'SF-TF': null, 'SF-H': null,
+    'D-K': 3, 'D-PG': null, 'D-PT': null, 'D-TK': null
+  };
+
+  document.getElementById('btnAdminAlpa').innerText = "Memproses...";
+  const { error } = await supabaseClient.from('table_data_report').insert([payload]);
+  
+  if (error) alert("Gagal tandai Alpa: " + error.message);
+  else { alert("Berhasil ditandai ALPA ❌"); batalEdit(); muatDataLaporan(); }
+  document.getElementById('btnAdminAlpa').innerText = "Tandai Alpa ❌";
+}
+
 // ==========================================
 // BAGIAN 3: REKAP HARIAN (FORMAT WA)
 // ==========================================
