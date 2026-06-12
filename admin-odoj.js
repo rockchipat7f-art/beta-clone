@@ -241,7 +241,7 @@ async function muatRekapHarian() {
       htmlOutput += `<div class="rekap-juz-title">*JUZ ${namaJuz}*</div>`;
       repJuzList.forEach(rep => {
         let ikon = getIkonRekap(rep);
-        teksRekapGlobal += `* ${rep.user} : ${ikon}*\n`;
+        teksRekapGlobal += `* ${rep.user} : ${ikon}\n`;
         htmlOutput += `<div class="rekap-user-row">* ${rep.user} : ${ikon}</div>`;
       });
       teksRekapGlobal += `\n`; htmlOutput += `<br>`;
