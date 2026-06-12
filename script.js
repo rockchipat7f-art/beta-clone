@@ -39,10 +39,29 @@ function get7HariSesi() {
   return arr;
 }
 
-// --- FUNGSI MENGAMBIL IKON BERDASARKAN SKOR DB ---
+// --- FUNGSI MENGHITUNG ALPA BERUNTUN ---
+function hitungAlpaBeruntun(username) {
+  if (!globalReports) return 1;
+  // Ambil semua riwayat user dari yang terbaru ke terlama
+  let userReps = globalReports.filter(r => r.user === username);
+  let count = 0;
+  for (let r of userReps) {
+    if (r['D-K'] === 3) count++; // Kalau ketemu Alpa, tambah jumlah ❌
+    else break; // Kalau ketemu laporan normal/izin, perhitungan berhenti
+  }
+  return count > 0 ? count : 1;
+}
+
+// --- FUNGSI MENGAMBIL IKON AMALIYAH ---
 function getIkonAmaliyah(rep) {
   if (!rep) return '➖ ➖ ➖ ➖ ➖';
   if (rep['D-K'] === 2) return '🤍 🤍 🤍 🤍 🤍';
+  if (rep['D-K'] === 3) {
+    let count = hitungAlpaBeruntun(rep.user);
+    // Menggandakan ikon ❌ sebanyak hari Alpa beruntun (pakai spasi agar rapi)
+    return Array(count).fill('❌').join(' ');
+  }
+  
   let ikon = [];
   if (rep['T-K'] === 100) ikon.push('✅'); else if (rep['T-M'] === 100) ikon.push('🎧'); else if (rep['T-T'] === 100) ikon.push('🔀'); else if (rep['T-TK'] === 0) ikon.push('💔'); else ikon.push('➖');
   if (rep['SD-D'] === 100) ikon.push('✅'); else if (rep['SD-TD'] === 0) ikon.push('💔'); else if (rep['SD-H'] === 1) ikon.push('🚺'); else ikon.push('➖');
