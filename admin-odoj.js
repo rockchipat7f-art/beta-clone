@@ -283,7 +283,7 @@ async function muatRekapHarian() {
       teksRekapGlobal += `*JUZ ${namaJuz}*\n`;
       htmlOutput += `<div class="rekap-juz-title">*JUZ ${namaJuz}*</div>`;
       repJuzList.forEach(rep => {
-        let ikon = getIkonRekap(rep);
+        let ikon = getIkonRekap(rep, semuaLaporan);
         teksRekapGlobal += `* ${rep.user} : ${ikon}\n`;
         htmlOutput += `<div class="rekap-user-row">* ${rep.user} : ${ikon}</div>`;
       });
@@ -298,7 +298,7 @@ async function muatRekapHarian() {
     teksRekapGlobal += `*TANPA KETERANGAN / ALPA*\n`;
     htmlOutput += `<div class="rekap-juz-title" style="color:var(--merah);">*TANPA KETERANGAN / ALPA*</div>`;
     repAlpaList.forEach(rep => {
-      let ikon = getIkonRekap(rep);
+      let ikon = getIkonRekap(rep, semuaLaporan);
       teksRekapGlobal += `* ${rep.user} : ${ikon}\n`;
       htmlOutput += `<div class="rekap-user-row">* ${rep.user} : ${ikon}</div>`;
     });
