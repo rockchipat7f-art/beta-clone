@@ -119,6 +119,7 @@ async function muatDataLaporan() {
     const waktu = new Date(rep.created_at).toLocaleString('id-ID', {day:'numeric', month:'short', hour:'2-digit', minute:'2-digit'});
     let detail = [];
     if(rep['D-K'] === 2) detail.push("<b>STATUS IZIN (Semua Kriteria=2)</b>");
+    else if(rep['D-K'] === 3) detail.push("<b style='color:var(--merah);'>ALPA / TANPA KABAR ❌</b>");
     else {
       if(rep['T-K']!==null) detail.push(`Tilawah(${rep['T-K']})`); if(rep['T-TK']!==null) detail.push(`TilawahTdk(${rep['T-TK']})`);
       if(rep['T-M']!==null) detail.push(`Murottal(${rep['T-M']})`); if(rep['T-T']!==null) detail.push(`Terjemah(${rep['T-T']})`);
