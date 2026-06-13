@@ -202,15 +202,32 @@ document.getElementById('formAdminReport').addEventListener('submit', async (e) 
   else { const { error } = await supabaseClient.from('table_data_report').insert([payload]); if (error) alert("Gagal simpan: " + error.message); else { alert("Sukses tambah!"); batalEdit(); muatDataLaporan(); } }
 });
 
-// --- FUNGSI TANDAI ALPA / TANPA KABAR ---
+// --- FUNGSI TANDAI ALPA / TANPA KABAR (DENGAN AUTO-JUZ) ---
 async function tandaiAlpa() {
   const userDipilih = document.getElementById('adminSelectUser').value;
   if(!userDipilih) { alert("Pilih user dulu wakk!"); return; }
   if(!confirm(`Yakin mau tandai ${userDipilih} ALPA (Tanpa Kabar) hari ini?`)) return;
 
-  // Kode 3 = ALPA (Tidak Lapor)
+  document.getElementById('btnAdminAlpa').innerText = "Memproses...";
+
+  // Ambil input Juz kalau admin ngisi manual, kalau kosong kita auto-kalkulasi!
+  let nextJuz = parseInt(document.getElementById('adminTJ').value) || null;
+  
+  if (!nextJuz) {
+    const { data: lastRep } = await supabaseClient.from('table_data_report')
+      .select('T-J').eq('user', userDipilih).order('created_at', { ascending: false }).limit(1);
+      
+    if (lastRep && lastRep.length > 0 && lastRep[0]['T-J'] !== null) {
+      nextJuz = lastRep[0]['T-J'] + 1;
+      if (nextJuz > 30) nextJuz = 1;
+    } else {
+      nextJuz = 1; // Default Juz 1 kalau member bener-bener baru dan belum pernah laporan
+    }
+  }
+
+  // Kode 3 = ALPA (Tidak Lapor), tapi T-J tetap terisi!
   const payload = {
-    user: userDipilih, 'T-J': null,
+    user: userDipilih, 'T-J': nextJuz,
     'T-K': 3, 'T-TK': null, 'T-M': null, 'T-T': null,
     'SD-D': 3, 'SD-TD': null, 'SD-H': null,
     'ST-T': 3, 'ST-TT': null, 'ST-H': null,
@@ -218,11 +235,11 @@ async function tandaiAlpa() {
     'D-K': 3, 'D-PG': null, 'D-PT': null, 'D-TK': null
   };
 
-  document.getElementById('btnAdminAlpa').innerText = "Memproses...";
   const { error } = await supabaseClient.from('table_data_report').insert([payload]);
   
   if (error) alert("Gagal tandai Alpa: " + error.message);
-  else { alert("Berhasil ditandai ALPA ❌"); batalEdit(); muatDataLaporan(); }
+  else { alert(`Berhasil ditandai ALPA ❌ di Juz ${nextJuz}`); batalEdit(); muatDataLaporan(); }
+  
   document.getElementById('btnAdminAlpa').innerText = "Tandai Alpa ❌";
 }
 
@@ -274,9 +291,9 @@ async function muatRekapHarian() {
 
   let adaData = false;
   
-  // 1. Loop untuk Juz 1-30 yang Lapor Normal / Izin
+  // 1. Loop untuk Juz 1-30 (Sekarang yang ALPA tetap ikut barisan sesuai Juz-nya)
   for (let i = 1; i <= 30; i++) {
-    let repJuzList = laporanSesiIni.filter(r => r['T-J'] === i && r['D-K'] !== 3); // Singkirkan yang ALPA dari list Juz
+    let repJuzList = laporanSesiIni.filter(r => r['T-J'] === i); 
     if (repJuzList.length > 0) {
       adaData = true;
       let namaJuz = i.toString().padStart(2, '0');
@@ -284,23 +301,23 @@ async function muatRekapHarian() {
       htmlOutput += `<div class="rekap-juz-title">*JUZ ${namaJuz}*</div>`;
       repJuzList.forEach(rep => {
         let ikon = getIkonRekap(rep, semuaLaporan);
-        teksRekapGlobal += `* ${rep.user} : ${ikon}\n`;
-        htmlOutput += `<div class="rekap-user-row">* ${rep.user} : ${ikon}</div>`;
+        teksRekapGlobal += `* ${rep.user} : ${ikon}*\n`;
+        htmlOutput += `<div class="rekap-user-row">* ${rep.user} : ${ikon}*</div>`;
       });
       teksRekapGlobal += `\n`; htmlOutput += `<br>`;
     }
   }
 
-  // 2. Loop Khusus untuk yang ALPA (Tanpa Juz)
-  let repAlpaList = laporanSesiIni.filter(r => r['D-K'] === 3);
-  if (repAlpaList.length > 0) {
+  // 2. Loop Jaga-jaga (Siapa tahu ada error database yang Juz-nya beneran kosong)
+  let repTanpaJuzList = laporanSesiIni.filter(r => r['T-J'] === null || r['T-J'] === "");
+  if (repTanpaJuzList.length > 0) {
     adaData = true;
-    teksRekapGlobal += `*TANPA KETERANGAN / ALPA*\n`;
-    htmlOutput += `<div class="rekap-juz-title" style="color:var(--merah);">*TANPA KETERANGAN / ALPA*</div>`;
-    repAlpaList.forEach(rep => {
+    teksRekapGlobal += `*TANPA KETERANGAN JUZ*\n`;
+    htmlOutput += `<div class="rekap-juz-title" style="color:var(--merah);">*TANPA KETERANGAN JUZ*</div>`;
+    repTanpaJuzList.forEach(rep => {
       let ikon = getIkonRekap(rep, semuaLaporan);
-      teksRekapGlobal += `* ${rep.user} : ${ikon}\n`;
-      htmlOutput += `<div class="rekap-user-row">* ${rep.user} : ${ikon}</div>`;
+      teksRekapGlobal += `* ${rep.user} : ${ikon}*\n`;
+      htmlOutput += `<div class="rekap-user-row">* ${rep.user} : ${ikon}*</div>`;
     });
     teksRekapGlobal += `\n`; htmlOutput += `<br>`;
   }
