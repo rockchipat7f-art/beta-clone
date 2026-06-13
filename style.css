@@ -93,15 +93,12 @@ html, body { width: 100%; height: 100%; margin: 0; padding: 0; font-family: 'Seg
 .form-login button { width: 100%; padding: 12px; background: var(--hijau-gelap); color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
 .form-login button:hover { background: var(--hijau); }
 #pesanError { color: #ff4757; font-size: 0.9rem; margin-bottom: 15px; display: none; }
-.screen-gerbang { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; z-index: 10; pointer-events: none; overflow: hidden; }
-.sisi-gerbang { position: relative; width: 50%; height: 100%; background-color: #4a0e17; transition: transform 1.8s cubic-bezier(0.77, 0, 0.175, 1); display: flex; align-items: flex-end; pointer-events: auto; }
-.gerbang-kiri { transform-origin: left center; border-right: 4px solid #f1c40f; justify-content: flex-end; }
-.gerbang-kanan { transform-origin: right center; border-left: 4px solid #f1c40f; justify-content: flex-start; }
-.pilar { position: absolute; bottom: 0; width: 50px; height: 85%; background: linear-gradient(to right, #962d22, #c0392b, #7f261e); }
-.gerbang-kiri .pilar { left: 10%; } .gerbang-kanan .pilar { right: 10%; }
-.daun-pintu { width: 100%; height: 75%; background: #78131e; border: 15px solid #5c0f17; display: flex; justify-content: center; align-items: center; }
-.ornamen-kotak { width: 70%; height: 80%; border: 4px solid #f1c40f; background-image: linear-gradient(rgba(241, 196, 15, 0.3) 2px, transparent 2px), linear-gradient(90deg, rgba(241, 196, 15, 0.3) 2px, transparent 2px); background-size: 40px 40px; }
-.atap-kiri { right: 0; border-radius: 100px 0 0 0; } .atap-kanan { left: 0; border-radius: 0 100px 0 0; }
+.screen-gerbang { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; z-index: 10; pointer-events: none; background-color: #061a3c; }
+.sisi-gerbang { position: relative; width: 50%; height: 100%; transition: transform 1.8s cubic-bezier(0.77, 0, 0.175, 1); pointer-events: auto; background-color: #061a3c; background-size: cover; background-repeat: no-repeat; }
+.gerbang-kiri { transform-origin: left center; background-image: url('kiri.webp'); background-position: right center; }
+.gerbang-kanan { transform-origin: right center; background-image: url('kanan.webp'); background-position: left center; }
+.screen-gerbang.terbuka .gerbang-kiri { transform: translateX(-100%); }
+.screen-gerbang.terbuka .gerbang-kanan { transform: translateX(100%); }
 .screen-gerbang.terbuka { visibility: hidden; transition: visibility 0s 1.8s; }
 .screen-gerbang.terbuka .sisi-gerbang { pointer-events: none; }
 .screen-gerbang.terbuka .gerbang-kiri { transform: translateX(-100%); }
