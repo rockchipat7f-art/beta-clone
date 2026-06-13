@@ -60,7 +60,10 @@ async function muatDataUser() {
   const { data, error } = await query;
   if (error) { listUser.innerHTML = `<div style="color:red;">Error: ${error.message}</div>`; return; }
 
-  listUser.innerHTML = ''; selectUser.innerHTML = '<option value="">-- Pilih User --</option>'; 
+  listUser.innerHTML = ''; 
+  selectUser.innerHTML = '<option value="">-- Pilih User --</option>'; 
+  
+  // 1. Render daftar kartu user sesuai filter (ID / Abjad)
   data.forEach(user => {
     const isAktif = user.status !== false && user.status !== null;
     const statusTeks = isAktif ? '<span class="badge bg-hijau">Aktif</span>' : '<span class="badge bg-merah">Nonaktif</span>';
@@ -78,6 +81,11 @@ async function muatDataUser() {
         </div>
       </div>
     `;
+  });
+
+  // 2. Render dropdown "Pilih User" KHUSUS diurutkan Abjad (A-Z) terus-menerus
+  const dataUrutAbjad = [...data].sort((a, b) => a.username.localeCompare(b.username));
+  dataUrutAbjad.forEach(user => {
     selectUser.innerHTML += `<option value="${user.username}">${user.username}</option>`;
   });
 }
