@@ -86,7 +86,7 @@ html, body { width: 100%; height: 100%; margin: 0; padding: 0; font-family: 'Seg
 .btn-logout:hover { transform: scale(1.2); }
 .layer-login { position: absolute; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; z-index: 20; transition: opacity 0.8s ease, visibility 0.8s; background: rgba(0, 0, 0, 0.7); }
 .layer-login.hilang { opacity: 0; visibility: hidden; }
-.form-login { background: #1e272c; padding: 40px; border-radius: 12px; border: 2px solid var(--kaca-border); box-shadow: 0 0 25px rgba(0, 0, 0, 0.8); width: 320px; text-align: center; }
+.form-login { background: #061d44; padding: 20px; border-radius: 12px; border: 2px solid var(--kaca-border); box-shadow: 0 0 25px rgba(0, 0, 0, 0.8); width: 270px; text-align: center; }
 .form-login h2 { color: #f1c40f; margin-bottom: 20px; }
 .form-login input { width: 100%; padding: 12px; margin-bottom: 15px; background: rgba(0,0,0,0.4); color: white; border: 1px solid var(--kaca-border); border-radius: 6px; outline: none; }
 .form-login input:focus { border-color: var(--hijau); }
