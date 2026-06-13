@@ -1,7 +1,7 @@
 :root { --putih: #ffffff; --hijau: #10b981; --hijau-gelap: #059669; --gelap: #0f172a; --kaca-bg: rgba(255, 255, 255, 0.05); --kaca-border: rgba(255, 255, 255, 0.1); --teks-utama: #f8fafc; --teks-pudar: #94a3b8; --aksen: #f1c40f;}
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html, body { width: 100%; height: 100%; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; background-color: #111; color: var(--teks-utama); position: fixed; overflow: hidden; overscroll-behavior: none; touch-action: pan-x pan-y; }
-.konten-utama { position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: radial-gradient(circle at 50% 0%, #1e293b, #020617); z-index: 1; overflow: hidden; }
+.konten-utama { position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: radial-gradient(circle at 50% 0%, #061a3c, #464978); z-index: 1; overflow: hidden; }
 .w-full { width: 100%; max-width: 1200px; padding: 20px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; }
 .glass-panel { background: var(--kaca-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid var(--kaca-border); border-radius: 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); }
 .navbar { display: flex; justify-content: center; padding: 15px; margin-bottom: 20px; width: 100%; max-width: 500px; }
